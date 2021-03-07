@@ -23,8 +23,8 @@ def create_line_width_angle(start_x: float, start_y: float, end_x: float, end_y:
     :Returns arcade.Shape:
     """
     shape = arcade.create_line(
-        start_x = start_x,
-        start_y = start_y,
+        start_x = rotation_point_x + (start_x - rotation_point_x) * math.cos(math.radians(angle)) - (start_y - rotation_point_y) * math.sin(math.radians(angle)),
+        start_y = rotation_point_y + (start_x - rotation_point_x) * math.sin(math.radians(angle)) + (start_y - rotation_point_y) * math.cos(math.radians(angle)),
         end_x = rotation_point_x + (end_x - rotation_point_x) * math.cos(math.radians(angle)) - (end_y - rotation_point_y) * math.sin(math.radians(angle)),
         end_y = rotation_point_y + (end_x - rotation_point_x) * math.sin(math.radians(angle)) + (end_y - rotation_point_y) * math.cos(math.radians(angle)),
         color = color,
@@ -112,8 +112,13 @@ class Window(arcade.Window):
         self.koch = create_koch_curve(
             start_x = WINDOW_WIDTH / 2 - 250,
             start_y = WINDOW_HEIGHT / 2,
-            width = 500
+            width = 500,
+            angle = 60
         )
+
+        test = create_line_width_angle(100, WINDOW_HEIGHT / 2, 400, WINDOW_HEIGHT / 2, 0, WINDOW_HEIGHT / 2, 60)
+        self.list_test = arcade.ShapeElementList()
+        self.list_test.append(test)
 
     def on_draw(self):
         arcade.start_render()
