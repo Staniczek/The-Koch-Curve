@@ -32,14 +32,12 @@ def create_line_width_angle(start_x: float, start_y: float, end_x: float, end_y:
     )
     return shape
 
-def create_koch_curve(start_x: float, start_y: float, width: float, rotation_point_x: float, rotation_point_y: float, angle: float = 0, iteration: int = 2, count: int = 0, line_width: float = 1, color: arcade.Color = arcade.csscolor.WHITE) -> arcade.ShapeElementList:
+def create_koch_curve(start_x: float, start_y: float, width: float, angle: float = 0, iteration: int = 2, count: int = 0, line_width: float = 1, color: arcade.Color = arcade.csscolor.WHITE) -> arcade.ShapeElementList:
     """ 
     Create a Koch curve to be rendered later. 
     :param float start_x:
     :param float start_y:
     :param float width:
-    :param float rotation_point_x: rotation point of the curve
-    :param float rotation_point_y: rotation point of the curve
     :param float angle:
     :param float iteration: how many times to repeat the process
     :param float count: repetition counter
@@ -58,8 +56,8 @@ def create_koch_curve(start_x: float, start_y: float, width: float, rotation_poi
         start_y = start_y,
         end_x = start_x + line_length,
         end_y = start_y,
-        rotation_point_x = rotation_point_x,
-        rotation_point_y = rotation_point_y,
+        rotation_point_x = start_x,
+        rotation_point_y = start_y,
         angle = angle,
         line_width = line_width,
         color = color,
@@ -71,8 +69,8 @@ def create_koch_curve(start_x: float, start_y: float, width: float, rotation_poi
         start_y = start_y,
         end_x = start_x + line_length + line_length / 2,
         end_y = start_y + (line_length * math.sqrt(3) / 2),
-        rotation_point_x = rotation_point_x,
-        rotation_point_y = rotation_point_y,
+        rotation_point_x = start_x,
+        rotation_point_y = start_y,
         angle = angle,
         line_width = line_width,
         color = color,
@@ -84,8 +82,8 @@ def create_koch_curve(start_x: float, start_y: float, width: float, rotation_poi
         start_y = start_y + (line_length * math.sqrt(3) / 2),
         end_x = start_x + line_length * 2,
         end_y = start_y,
-        rotation_point_x = rotation_point_x,
-        rotation_point_y = rotation_point_y,
+        rotation_point_x = start_x,
+        rotation_point_y = start_y,
         angle = angle,
         line_width = line_width,
         color = color,
@@ -97,8 +95,8 @@ def create_koch_curve(start_x: float, start_y: float, width: float, rotation_poi
         start_y = start_y,
         end_x = start_x + line_length * 3,
         end_y = start_y,
-        rotation_point_x = rotation_point_x,
-        rotation_point_y = rotation_point_y,
+        rotation_point_x = start_x,
+        rotation_point_y = start_y,
         angle = angle,
         line_width = line_width,
         color = color,
@@ -113,8 +111,6 @@ def create_koch_curve(start_x: float, start_y: float, width: float, rotation_poi
             start_x = start_x,
             start_y = start_y,
             width = line_length,
-            rotation_point_x= start_x,
-            rotation_point_y= start_y,
             angle = angle,
             iteration = iteration,
             count = count,
@@ -123,21 +119,19 @@ def create_koch_curve(start_x: float, start_y: float, width: float, rotation_poi
         )
         for line in koch:
             line_list.append(line)
-        # # create new curve on line b-c
-        # koch = create_koch_curve(
-        #     start_x = start_x,
-        #     start_y = start_y,
-        #     width = line_length,
-        #     rotation_point_x= start_x,
-        #     rotation_point_y= start_y,
-        #     angle = 0,
-        #     iteration = iteration,
-        #     count = count,
-        #     line_width = line_width,
-        #     color = color
-        # )
-        # for line in koch:
-        #     line_list.append(line)
+        # create new curve on line b-c
+        koch = create_koch_curve(
+            start_x = start_x + (start_x - start_x + line_length) * math.cos(math.radians(angle)) - (start_y - start_y) * math.sin(math.radians(angle)),
+            start_y = start_y + (start_x - start_x + line_length) * math.sin(math.radians(angle)) + (start_y - start_y) * math.cos(math.radians(angle)),
+            width = line_length,
+            angle = angle + 60,
+            iteration = iteration,
+            count = count,
+            line_width = line_width,
+            color = color
+        )
+        for line in koch:
+            line_list.append(line)
 
     return line_list
 
@@ -151,8 +145,6 @@ class Window(arcade.Window):
             start_x = start_x,
             start_y = start_y,
             width = 500,
-            rotation_point_x= start_x,
-            rotation_point_y= start_y,
             angle = 0,
             iteration = 3
         )
