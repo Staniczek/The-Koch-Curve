@@ -132,6 +132,32 @@ def create_koch_curve(start_x: float, start_y: float, width: float, angle: float
         )
         for line in koch:
             line_list.append(line)
+        # create new curve on line c-d
+        koch = create_koch_curve(
+            start_x = start_x + (start_x - start_x + line_length + line_length / 2) * math.cos(math.radians(angle)) - (start_y - start_y + (line_length * math.sqrt(3) / 2)) * math.sin(math.radians(angle)),
+            start_y = start_y + (start_x - start_x + line_length + line_length / 2) * math.sin(math.radians(angle)) + (start_y - start_y + (line_length * math.sqrt(3) / 2)) * math.cos(math.radians(angle)),
+            width = line_length,
+            angle = angle - 60,
+            iteration = iteration,
+            count = count,
+            line_width = line_width,
+            color = color
+        )
+        for line in koch:
+            line_list.append(line)
+        # create new curve on line d-e
+        koch = create_koch_curve(
+            start_x = start_x + (start_x - start_x + line_length * 2) * math.cos(math.radians(angle)) - (start_y - start_y) * math.sin(math.radians(angle)),
+            start_y = start_y + (start_x - start_x + line_length * 2) * math.sin(math.radians(angle)) + (start_y - start_y) * math.cos(math.radians(angle)),
+            width = line_length,
+            angle = angle,
+            iteration = iteration,
+            count = count,
+            line_width = line_width,
+            color = color
+        )
+        for line in koch:
+            line_list.append(line)
 
     return line_list
 
