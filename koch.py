@@ -13,8 +13,8 @@ def create_line_width_angle(start_x: float, start_y: float, end_x: float, end_y:
     :param float start_y:
     :param float end_x:
     :param float end_y:
-    :param float rotation_point_x:
-    :param float rotation_point_y:
+    :param float rotation_point_x: rotation point of the line
+    :param float rotation_point_y: rotation point of the line
     :param float angle:
     :param Color color:
     :param float line_width:
@@ -32,15 +32,17 @@ def create_line_width_angle(start_x: float, start_y: float, end_x: float, end_y:
     )
     return shape
 
-def create_koch_curve(start_x: float, start_y: float, width: float, angle: float = 0, iteration: int = 2, count: int = 0, line_width: float = 1, color: arcade.Color = arcade.csscolor.WHITE) -> arcade.ShapeElementList:
+def create_koch_curve(start_x: float, start_y: float, width: float, rotation_point_x: float, rotation_point_y: float, angle: float = 0, iteration: int = 2, count: int = 0, line_width: float = 1, color: arcade.Color = arcade.csscolor.WHITE) -> arcade.ShapeElementList:
     """ 
     Create a Koch curve to be rendered later. 
     :param float start_x:
     :param float start_y:
     :param float width:
+    :param float rotation_point_x: rotation point of the curve
+    :param float rotation_point_y: rotation point of the curve
     :param float angle:
-    :param float iteration: - how many times to repeat the process
-    :param float count: - repetition counter
+    :param float iteration: how many times to repeat the process
+    :param float count: repetition counter
     :param float line_width:
     :param arcade.Color color:
 
@@ -56,8 +58,8 @@ def create_koch_curve(start_x: float, start_y: float, width: float, angle: float
         start_y = start_y,
         end_x = start_x + line_length,
         end_y = start_y,
-        rotation_point_x = start_x,
-        rotation_point_y = start_y,
+        rotation_point_x = rotation_point_x,
+        rotation_point_y = rotation_point_y,
         angle = angle,
         line_width = line_width,
         color = color,
@@ -69,8 +71,8 @@ def create_koch_curve(start_x: float, start_y: float, width: float, angle: float
         start_y = start_y,
         end_x = start_x + line_length + line_length / 2,
         end_y = start_y + (line_length * math.sqrt(3) / 2),
-        rotation_point_x = start_x,
-        rotation_point_y = start_y,
+        rotation_point_x = rotation_point_x,
+        rotation_point_y = rotation_point_y,
         angle = angle,
         line_width = line_width,
         color = color,
@@ -82,8 +84,8 @@ def create_koch_curve(start_x: float, start_y: float, width: float, angle: float
         start_y = start_y + (line_length * math.sqrt(3) / 2),
         end_x = start_x + line_length * 2,
         end_y = start_y,
-        rotation_point_x = start_x,
-        rotation_point_y = start_y,
+        rotation_point_x = rotation_point_x,
+        rotation_point_y = rotation_point_y,
         angle = angle,
         line_width = line_width,
         color = color,
@@ -95,8 +97,8 @@ def create_koch_curve(start_x: float, start_y: float, width: float, angle: float
         start_y = start_y,
         end_x = start_x + line_length * 3,
         end_y = start_y,
-        rotation_point_x = start_x,
-        rotation_point_y = start_y,
+        rotation_point_x = rotation_point_x,
+        rotation_point_y = rotation_point_y,
         angle = angle,
         line_width = line_width,
         color = color,
@@ -109,11 +111,15 @@ class Window(arcade.Window):
     def __init__(self, width: int, height: int, title: str):
         super().__init__(width=width, height=height, title=title)
         # create koch curve object
+        start_x =  WINDOW_WIDTH / 2 - 250
+        start_y =  WINDOW_HEIGHT / 2
         self.koch = create_koch_curve(
-            start_x = WINDOW_WIDTH / 2 - 250,
-            start_y = WINDOW_HEIGHT / 2,
+            start_x = start_x,
+            start_y = start_y,
             width = 500,
-            angle = 60
+            rotation_point_x= start_x,
+            rotation_point_y= start_y,
+            angle = 0
         )
 
         test = create_line_width_angle(100, WINDOW_HEIGHT / 2, 400, WINDOW_HEIGHT / 2, 0, WINDOW_HEIGHT / 2, 60)
