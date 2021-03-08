@@ -50,61 +50,9 @@ def create_koch_curve(start_x: float, start_y: float, width: float, angle: float
     line_list = arcade.ShapeElementList()
     # length of a single line in the curve
     line_length = width / 3
-    # create line a-b
-    line = create_line_width_angle(
-        start_x = start_x,
-        start_y = start_y,
-        end_x = start_x + line_length,
-        end_y = start_y,
-        rotation_point_x = start_x,
-        rotation_point_y = start_y,
-        angle = angle,
-        line_width = line_width,
-        color = color,
-    )
-    line_list.append(line)
-    # create line b-c
-    line = create_line_width_angle(
-        start_x = start_x + line_length,
-        start_y = start_y,
-        end_x = start_x + line_length + line_length / 2,
-        end_y = start_y + (line_length * math.sqrt(3) / 2),
-        rotation_point_x = start_x,
-        rotation_point_y = start_y,
-        angle = angle,
-        line_width = line_width,
-        color = color,
-    )
-    line_list.append(line)
-    # create line c-d
-    line = create_line_width_angle(
-        start_x = start_x + line_length + line_length / 2,
-        start_y = start_y + (line_length * math.sqrt(3) / 2),
-        end_x = start_x + line_length * 2,
-        end_y = start_y,
-        rotation_point_x = start_x,
-        rotation_point_y = start_y,
-        angle = angle,
-        line_width = line_width,
-        color = color,
-    )
-    line_list.append(line)
-    # create line d-e
-    line = create_line_width_angle(
-        start_x = start_x + line_length * 2,
-        start_y = start_y,
-        end_x = start_x + line_length * 3,
-        end_y = start_y,
-        rotation_point_x = start_x,
-        rotation_point_y = start_y,
-        angle = angle,
-        line_width = line_width,
-        color = color,
-    )
-    line_list.append(line)
-
+    # repetition counter
     count += 1
-
+    # if the repetition count is less than or the same as the iteration number create new curve on all line in curent curve
     if count <= iteration:
         # create new curve on line a-b
         koch = create_koch_curve(
@@ -158,6 +106,60 @@ def create_koch_curve(start_x: float, start_y: float, width: float, angle: float
         )
         for line in koch:
             line_list.append(line)
+    # if you in last iteration create line
+    else:
+        # create line a-b
+        line = create_line_width_angle(
+            start_x = start_x,
+            start_y = start_y,
+            end_x = start_x + line_length,
+            end_y = start_y,
+            rotation_point_x = start_x,
+            rotation_point_y = start_y,
+            angle = angle,
+            line_width = line_width,
+            color = color,
+        )
+        line_list.append(line)
+        # create line b-c
+        line = create_line_width_angle(
+            start_x = start_x + line_length,
+            start_y = start_y,
+            end_x = start_x + line_length + line_length / 2,
+            end_y = start_y + (line_length * math.sqrt(3) / 2),
+            rotation_point_x = start_x,
+            rotation_point_y = start_y,
+            angle = angle,
+            line_width = line_width,
+            color = color,
+        )
+        line_list.append(line)
+        # create line c-d
+        line = create_line_width_angle(
+            start_x = start_x + line_length + line_length / 2,
+            start_y = start_y + (line_length * math.sqrt(3) / 2),
+            end_x = start_x + line_length * 2,
+            end_y = start_y,
+            rotation_point_x = start_x,
+            rotation_point_y = start_y,
+            angle = angle,
+            line_width = line_width,
+            color = color,
+        )
+        line_list.append(line)
+        # create line d-e
+        line = create_line_width_angle(
+            start_x = start_x + line_length * 2,
+            start_y = start_y,
+            end_x = start_x + line_length * 3,
+            end_y = start_y,
+            rotation_point_x = start_x,
+            rotation_point_y = start_y,
+            angle = angle,
+            line_width = line_width,
+            color = color,
+        )
+        line_list.append(line)
 
     return line_list
 
@@ -165,19 +167,11 @@ class Window(arcade.Window):
     def __init__(self, width: int, height: int, title: str):
         super().__init__(width=width, height=height, title=title)
         # create koch curve object
-        start_x =  WINDOW_WIDTH / 2 - 250
-        start_y =  WINDOW_HEIGHT / 2
         self.koch = create_koch_curve(
-            start_x = start_x,
-            start_y = start_y,
+            start_x = WINDOW_WIDTH / 2 - 250,
+            start_y = WINDOW_HEIGHT / 2,
             width = 500,
-            angle = 0,
-            iteration = 3
         )
-
-        test = create_line_width_angle(100, WINDOW_HEIGHT / 2, 400, WINDOW_HEIGHT / 2, 0, WINDOW_HEIGHT / 2, 60)
-        self.list_test = arcade.ShapeElementList()
-        self.list_test.append(test)
 
     def on_draw(self):
         arcade.start_render()
