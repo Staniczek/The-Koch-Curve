@@ -105,6 +105,40 @@ def create_koch_curve(start_x: float, start_y: float, width: float, rotation_poi
     )
     line_list.append(line)
 
+    count += 1
+
+    if count <= iteration:
+        # create new curve on line a-b
+        koch = create_koch_curve(
+            start_x = start_x,
+            start_y = start_y,
+            width = line_length,
+            rotation_point_x= start_x,
+            rotation_point_y= start_y,
+            angle = angle,
+            iteration = iteration,
+            count = count,
+            line_width = line_width,
+            color = color
+        )
+        for line in koch:
+            line_list.append(line)
+        # # create new curve on line b-c
+        # koch = create_koch_curve(
+        #     start_x = start_x,
+        #     start_y = start_y,
+        #     width = line_length,
+        #     rotation_point_x= start_x,
+        #     rotation_point_y= start_y,
+        #     angle = 0,
+        #     iteration = iteration,
+        #     count = count,
+        #     line_width = line_width,
+        #     color = color
+        # )
+        # for line in koch:
+        #     line_list.append(line)
+
     return line_list
 
 class Window(arcade.Window):
@@ -119,7 +153,8 @@ class Window(arcade.Window):
             width = 500,
             rotation_point_x= start_x,
             rotation_point_y= start_y,
-            angle = 0
+            angle = 0,
+            iteration = 3
         )
 
         test = create_line_width_angle(100, WINDOW_HEIGHT / 2, 400, WINDOW_HEIGHT / 2, 0, WINDOW_HEIGHT / 2, 60)
