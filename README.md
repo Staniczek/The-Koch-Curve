@@ -7,7 +7,7 @@ Below you will find two functions that I wrote for this project and can be used 
 If you would like to use any of these functions, you can download [koch.py](https://github.com/stanik120/The-Koch-Curve/blob/master/koch.py) and import it into your project.
 
 ### The first one extends the create_line method from the [Arcade library](https://github.com/pythonarcade/arcade) and adds the ability to rotate the line by a given angle:
-```
+```python
 def create_line_width_angle(start_x: float, start_y: float, end_x: float, end_y: float, rotation_point_x: float, rotation_point_y: float, angle: float = 0, color: arcade.Color = arcade.csscolor.WHITE, line_width: float = 1) -> arcade.Shape:
     """
     Create a line to be rendered later with additional parameters to set the angle and rotation point of the line.
@@ -37,7 +37,7 @@ def create_line_width_angle(start_x: float, start_y: float, end_x: float, end_y:
 ```
 
 ### The second draws the Koch curve:
-```
+```python
 def create_koch_curve(start_x: float, start_y: float, width: float, angle: float = 0, iteration: int = 2, count: int = 0, line_width: float = 1, color: arcade.Color = arcade.csscolor.WHITE) -> arcade.ShapeElementList:
     """ 
     Create a Koch curve to be rendered later. 
