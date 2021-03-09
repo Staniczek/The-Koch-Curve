@@ -1,22 +1,13 @@
-""" 
-Koch curve drawing program.
+# Koch curve drawing program
+I used the [Arcade library](https://github.com/pythonarcade/arcade) to write this program.
 
-    File name: koch.py
-    Author: Stanik
-    Email: stanik@tuta.io
-    GitHub: https://github.com/stanik120
-    License: GPL 3
-    Python Version: 3.9.1
-    
-"""
-import arcade
-import math
+![Koch curve](koch.jpg)
 
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
-# number of iteration
-ITERATION = 4
+Below you will find two functions that I wrote for this project and can be used in other projects.
+If you would like to use any of these functions, you can download [koch.py](https://github.com/stanik120/The-Koch-Curve/blob/master/koch.py) and import it into your project.
 
+### The first one extends the create_line method from the Arcade library and adds the ability to rotate the line by a given angle:
+```
 def create_line_width_angle(start_x: float, start_y: float, end_x: float, end_y: float, rotation_point_x: float, rotation_point_y: float, angle: float = 0, color: arcade.Color = arcade.csscolor.WHITE, line_width: float = 1) -> arcade.Shape:
     """
     Create a line to be rendered later with additional parameters to set the angle and rotation point of the line.
@@ -43,7 +34,10 @@ def create_line_width_angle(start_x: float, start_y: float, end_x: float, end_y:
         line_width = line_width
     )
     return shape
+```
 
+### The second draws the Koch curve:
+```
 def create_koch_curve(start_x: float, start_y: float, width: float, angle: float = 0, iteration: int = 2, count: int = 0, line_width: float = 1, color: arcade.Color = arcade.csscolor.WHITE) -> arcade.ShapeElementList:
     """ 
     Create a Koch curve to be rendered later. 
@@ -174,26 +168,4 @@ def create_koch_curve(start_x: float, start_y: float, width: float, angle: float
         line_list.append(line)
 
     return line_list
-
-class Window(arcade.Window):
-    def __init__(self, width: int, height: int, title: str):
-        super().__init__(width=width, height=height, title=title)
-        # create Koch curve object
-        self.koch = create_koch_curve(
-            start_x = WINDOW_WIDTH / 2 - WINDOW_WIDTH / 2,
-            start_y = 10,
-            width = WINDOW_WIDTH,
-            iteration = ITERATION
-        )
-
-    def on_draw(self):
-        arcade.start_render()
-        # draw Koch curve
-        self.koch.draw()
-
-def main():
-    window = Window(WINDOW_WIDTH, WINDOW_HEIGHT, "Koch Curve")
-    arcade.run()
-
-if __name__ == "__main__":
-    main()
+```
