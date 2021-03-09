@@ -36,7 +36,7 @@ def create_line_width_angle(start_x: float, start_y: float, end_x: float, end_y:
     return shape
 ```
 
-### The second draws the Koch curve:
+### The second create the Koch curve:
 ```python
 def create_koch_curve(start_x: float, start_y: float, width: float, angle: float = 0, iteration: int = 2, count: int = 0, line_width: float = 1, color: arcade.Color = arcade.csscolor.WHITE) -> arcade.ShapeElementList:
     """ 
