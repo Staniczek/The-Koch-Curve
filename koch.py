@@ -53,8 +53,8 @@ def create_koch_curve(start_x: float, start_y: float, width: float, angle: float
     :param float start_y:
     :param float width:
     :param float angle:
-    :param float iteration: how many times to repeat the process
-    :param float count: repetition counter
+    :param int iteration: how many times to repeat the process
+    :param int count: repetition counter
     :param float line_width:
     :param arcade.Color color:
 
@@ -178,6 +178,16 @@ def create_koch_curve(start_x: float, start_y: float, width: float, angle: float
     return line_list
 
 class KochSnowflake(arcade.ShapeElementList):
+    """ 
+    Create a Koch curve on the faces of a regular polygon with the given number of faces 
+    :param float center_x: center of a snowflake
+    :param float center_y: center of a snowflake
+    :param float radius: radius of a snowflake
+    :param int polygon: number of faces
+    :param int iteration: how many times to repeat the process
+    :param float line_width:
+    :param arcade.Color color:
+    """
     def __init__(self, center_x: float, center_y: float, radius: float, polygon: int = 6, iteration: int = 2, line_width: float = 1, color: arcade.Color = arcade.csscolor.WHITE):
         super().__init__()
         self.radius = radius
@@ -192,10 +202,13 @@ class KochSnowflake(arcade.ShapeElementList):
 
     def update(self):
         """ call this method if you change something in object """
+        # calculate side_width a = 2r tan(π/n) = 2R sin(π/n)
+        side_width = 2 * self.radius * math.sin(math.pi / self.polygon)
+        # calculate inradius r = (1/2)a cot(π/n) = R cos(π/n) 
+        inradius = self.radius * math.cos(math.pi / self.polygon)
         # calculate start_x and start_y for the first curve
-        width = self.radius
-        start_x = -width / 2
-        start_y = width / 2
+        start_x = -side_width / 2
+        start_y = inradius
         # create new curve for all wall in polygon
         for i in range(self.polygon):
             angle = (360 - (360 / self.polygon)) * i
@@ -203,7 +216,7 @@ class KochSnowflake(arcade.ShapeElementList):
             koch = create_koch_curve(
                 start_x = start_x,
                 start_y = start_y,
-                width = width,
+                width = side_width,
                 angle = angle,
                 iteration = self.iteration,
                 count = 0,
@@ -215,7 +228,7 @@ class KochSnowflake(arcade.ShapeElementList):
             # calculate start_x and start_y for the next curve
             rotation_point_x = start_x
             rotation_point_y = start_y
-            end_x = start_x + width
+            end_x = start_x + side_width
             end_y = start_y
             start_x = rotation_point_x + (end_x - rotation_point_x) * math.cos(math.radians(angle)) - (end_y - rotation_point_y) * math.sin(math.radians(angle))
             start_y = rotation_point_y + (end_x - rotation_point_x) * math.sin(math.radians(angle)) + (end_y - rotation_point_y) * math.cos(math.radians(angle))
@@ -228,7 +241,7 @@ class Window(arcade.Window):
             center_x = WINDOW_WIDTH / 2,
             center_y = WINDOW_HEIGHT / 2,
             radius = WINDOW_WIDTH * .4,
-            polygon = 4,
+            polygon = POLYGON,
             iteration = ITERATION
         )
 
