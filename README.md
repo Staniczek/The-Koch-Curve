@@ -1,9 +1,10 @@
 # Koch curve drawing program
 I used the [Arcade library](https://github.com/pythonarcade/arcade) to write this program.
 
-![Koch curve](koch.jpg)
+![Koch Snowflake](KochSnowflake.gif)
+While the program is running, you can press the arrows on the keyboard that change the number of iterations or the number of sides in a polygon which consists of a snowflake.
 
-Below you will find two functions that I wrote for this project and can be used in other projects.
+Below you will find two useful functions that I wrote for this project and can be used in other projects.
 If you would like to use any of these functions, you can download [koch.py](https://github.com/stanik120/The-Koch-Curve/blob/master/koch.py) and import it into your project.
 
 ### The first one extends the create_line method from the [Arcade library](https://github.com/pythonarcade/arcade) and adds the ability to rotate the line by a given angle and rotation point:
@@ -37,6 +38,7 @@ def create_line_width_angle(start_x: float, start_y: float, end_x: float, end_y:
 ```
 
 ### The second create the Koch curve:
+![Koch curve](koch.jpg)
 ```python
 def create_koch_curve(start_x: float, start_y: float, width: float, angle: float = 0, iteration: int = 2, count: int = 0, line_width: float = 1, color: arcade.Color = arcade.csscolor.WHITE) -> arcade.ShapeElementList:
     """ 
@@ -45,8 +47,8 @@ def create_koch_curve(start_x: float, start_y: float, width: float, angle: float
     :param float start_y:
     :param float width:
     :param float angle:
-    :param float iteration: how many times to repeat the process
-    :param float count: repetition counter
+    :param int iteration: how many times to repeat the process
+    :param int count: repetition counter
     :param float line_width:
     :param arcade.Color color:
 
