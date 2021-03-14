@@ -176,11 +176,11 @@ def create_koch_curve(start_x: float, start_y: float, width: float, angle: float
     return line_list
 
 class KochSnowflake(arcade.ShapeElementList):
-    def __init__(self, center_x: float, center_y: float, width: float, polygon: int = 4, iteration: int = 2, line_width: float = 1, color: arcade.Color = arcade.csscolor.WHITE):
+    def __init__(self, center_x: float, center_y: float, width: float, polygon: int = 6, iteration: int = 2, line_width: float = 1, color: arcade.Color = arcade.csscolor.WHITE):
         super().__init__()
-        self.start_x = center_x - width / 2
-        self.start_y = center_y + width / 2
         self.width = width
+        self.center_x = center_x
+        self.center_y = center_y
         self.polygon = polygon
         self.iteration = iteration
         self.line_width = line_width
@@ -190,6 +190,8 @@ class KochSnowflake(arcade.ShapeElementList):
 
     def update(self):
         """ call this method if you change something in object """
+        self.start_x = -self.width / 2
+        self.start_y = self.width / 2
         # create new curve for all wall in polygon
         for i in range(self.polygon):
             angle = (360 - (360 / self.polygon)) * i
@@ -222,7 +224,8 @@ class Window(arcade.Window):
         self.koch = KochSnowflake(
             center_x = WINDOW_WIDTH / 2,
             center_y = WINDOW_HEIGHT / 2,
-            width = WINDOW_WIDTH * .5,
+            width = WINDOW_WIDTH * .4,
+            polygon = 4,
             iteration = ITERATION
         )
 
