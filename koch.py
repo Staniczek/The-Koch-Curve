@@ -12,8 +12,8 @@ Koch curve drawing program.
 import arcade
 import math
 
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
+WINDOW_WIDTH = 800
+WINDOW_HEIGHT = 800
 # number of iteration
 ITERATION = 4
 
@@ -175,14 +175,54 @@ def create_koch_curve(start_x: float, start_y: float, width: float, angle: float
 
     return line_list
 
+class KochSnowflake(arcade.ShapeElementList):
+    def __init__(self, center_x: float, center_y: float, width: float, polygon: int = 4, iteration: int = 2, line_width: float = 1, color: arcade.Color = arcade.csscolor.WHITE):
+        super().__init__()
+        self.start_x = center_x - width / 2
+        self.start_y = center_y + width / 2
+        self.width = width
+        self.polygon = polygon
+        self.iteration = iteration
+        self.line_width = line_width
+        self.color = color
+
+        self.update()
+
+    def update(self):
+        """ call this method if you change something in object """
+        # create new curve for all wall in polygon
+        for i in range(self.polygon):
+            angle = (360 - (360 / self.polygon)) * i
+            # create new curve
+            koch = create_koch_curve(
+                start_x = self.start_x,
+                start_y = self.start_y,
+                width = self.width,
+                angle = angle,
+                iteration = self.iteration,
+                count = 0,
+                line_width = self.line_width,
+                color = self.color
+            )
+            for line in koch:
+                self.append(line)
+            # calculate start_x and start_y for the next curve
+            rotation_point_x = self.start_x
+            rotation_point_y = self.start_y
+            end_x = self.start_x + self.width
+            end_y = self.start_y
+            self.start_x = rotation_point_x + (end_x - rotation_point_x) * math.cos(math.radians(angle)) - (end_y - rotation_point_y) * math.sin(math.radians(angle))
+            self.start_y = rotation_point_y + (end_x - rotation_point_x) * math.sin(math.radians(angle)) + (end_y - rotation_point_y) * math.cos(math.radians(angle))
+
+
 class Window(arcade.Window):
     def __init__(self, width: int, height: int, title: str):
         super().__init__(width=width, height=height, title=title)
         # create Koch curve object
-        self.koch = create_koch_curve(
-            start_x = WINDOW_WIDTH / 2 - WINDOW_WIDTH / 2,
-            start_y = 10,
-            width = WINDOW_WIDTH,
+        self.koch = KochSnowflake(
+            center_x = WINDOW_WIDTH / 2,
+            center_y = WINDOW_HEIGHT / 2,
+            width = WINDOW_WIDTH * .5,
             iteration = ITERATION
         )
 
