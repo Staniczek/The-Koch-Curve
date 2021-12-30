@@ -5,7 +5,7 @@ I used the [Arcade library](https://github.com/pythonarcade/arcade) to write thi
 While the program is running, you can press the arrows on the keyboard that change the number of iterations or the number of sides in a polygon which consists of a snowflake.
 
 Below you will find two useful functions that I wrote for this project and can be used in other projects.
-If you would like to use any of these functions, you can download [koch.py](https://github.com/stanik120/The-Koch-Curve/blob/master/koch.py) and import it into your project.
+If you would like to use any of these functions, you can download [koch.py](koch.py) and import it into your project.
 
 ### The first one extends the create_line method from the [Arcade library](https://github.com/pythonarcade/arcade) and adds the ability to rotate the line by a given angle and rotation point:
 ```python
